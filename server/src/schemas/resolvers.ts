@@ -111,8 +111,8 @@ const resolvers = {
             query: matchConditions,
           },
         },
-        { $limit: args.limit || 20 },
         { $sort: { distance: 1 } },
+        { $limit: args.limit || 20 },
       ]);
     },
 
