@@ -61,7 +61,7 @@ export const DELETE_EVENT = gql`
 `;
 
 export const RSVP_TO_EVENT = gql`
-  mutation RsvpToEvent($eventId: ID!, $status: String!) {
+  mutation RsvpToEvent($eventId: ID!, $status: RsvpStatus!) {
     rsvpToEvent(eventId: $eventId, status: $status) {
       _id
       status

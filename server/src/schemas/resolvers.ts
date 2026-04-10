@@ -60,7 +60,7 @@ const resolvers = {
 
     // Browse events with optional filters
     events: async (_parent: any, args: { category?: string; search?: string; limit?: number; offset?: number }) => {
-      const query: any = { isPublic: true };
+      const query: any = { isPublic: true, endDate: { $gte: new Date() } };
 
       if (args.category) {
         query.category = args.category;
@@ -77,9 +77,15 @@ const resolvers = {
         .limit(args.limit || 20);
     },
 
-    // Get single event by ID
-    event: async (_parent: any, args: { id: string }) => {
-      return Event.findById(args.id);
+    // Get single event by ID (private events only visible to organizer)
+    event: async (_parent: any, args: { id: string }, context: Context) => {
+      const event = await Event.findById(args.id);
+      if (event && !event.isPublic) {
+        if (!context.user || event.organizer.toString() !== context.user._id) {
+          return null;
+        }
+      }
+      return event;
     },
 
     // Geospatial: find events near coordinates
@@ -91,7 +97,7 @@ const resolvers = {
       limit?: number;
     }) => {
       const radiusMeters = (args.radiusKm || 50) * 1000;
-      const matchConditions: any = { isPublic: true };
+      const matchConditions: any = { isPublic: true, endDate: { $gte: new Date() } };
 
       if (args.category) {
         matchConditions.category = args.category;
@@ -134,9 +140,18 @@ const resolvers = {
   Mutation: {
     // Create new user account
     signup: async (_parent: any, args: { username: string; email: string; password: string }) => {
-      const user = await User.create(args);
-      const token = signToken({ _id: user._id.toString(), username: user.username, email: user.email });
-      return { token, user };
+      try {
+        const user = await User.create(args);
+        const token = signToken(user);
+        return { token, user };
+      } catch (err: any) {
+        if (err.code === 11000) {
+          throw new GraphQLError('Username or email already in use', {
+            extensions: { code: 'BAD_USER_INPUT' },
+          });
+        }
+        throw err;
+      }
     },
 
     // Log in existing user
@@ -149,7 +164,7 @@ const resolvers = {
       if (!correctPw) {
         throw new AuthenticationError('Invalid email or password');
       }
-      const token = signToken({ _id: user._id.toString(), username: user.username, email: user.email });
+      const token = signToken(user);
       return { token, user };
     },
 

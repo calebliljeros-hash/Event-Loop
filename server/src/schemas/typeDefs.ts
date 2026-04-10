@@ -39,11 +39,17 @@ const typeDefs = `#graphql
     createdAt: String!
   }
 
+  enum RsvpStatus {
+    attending
+    maybe
+    declined
+  }
+
   type RSVP {
     _id: ID!
     event: Event!
     user: User!
-    status: String!
+    status: RsvpStatus!
     respondedAt: String!
   }
 
@@ -94,7 +100,7 @@ const typeDefs = `#graphql
     createEvent(input: EventInput!): Event!
     updateEvent(id: ID!, input: UpdateEventInput!): Event!
     deleteEvent(id: ID!): Event!
-    rsvpToEvent(eventId: ID!, status: String!): RSVP!
+    rsvpToEvent(eventId: ID!, status: RsvpStatus!): RSVP!
     cancelRsvp(eventId: ID!): RSVP!
   }
 `;

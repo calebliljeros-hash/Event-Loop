@@ -11,10 +11,10 @@ interface TokenPayload {
   email: string;
 }
 
-// Sign a new token
-export function signToken(user: { _id: string; username: string; email: string }): string {
+// Sign a new token — accepts Mongoose documents or plain objects
+export function signToken(user: { _id: unknown; username: string; email: string }): string {
   const payload: TokenPayload = {
-    _id: user._id,
+    _id: String(user._id),
     username: user.username,
     email: user.email,
   };
