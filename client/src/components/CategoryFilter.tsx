@@ -1,14 +1,4 @@
-const CATEGORIES = [
-  'Social',
-  'Conference',
-  'Music',
-  'Sports',
-  'Workshop',
-  'Networking',
-  'Food & Drink',
-  'Arts',
-  'Other',
-];
+import { CATEGORIES } from '../utils/categories';
 
 interface CategoryFilterProps {
   selected: string;

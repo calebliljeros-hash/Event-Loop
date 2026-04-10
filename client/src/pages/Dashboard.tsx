@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client/react';
 import { QUERY_MY_EVENTS, QUERY_MY_RSVPS } from '../graphql/queries';
 import { DELETE_EVENT } from '../graphql/mutations';
-import { getCategoryBadge } from '../components/EventCard';
+import { getCategoryBadge } from '../utils/categories';
 import { parseDate } from '../utils/date';
 
 type Tab = 'events' | 'rsvps';
@@ -83,6 +83,7 @@ export default function Dashboard() {
           {eventsLoading ? (
             <div className="text-center py-12">
               <div className="inline-block w-8 h-8 border-2 border-gray-700 border-t-indigo-500 rounded-full animate-spin"></div>
+              <p className="text-gray-500 mt-3">Loading your events...</p>
             </div>
           ) : myEvents.length ? (
             <div className="space-y-3">
@@ -148,6 +149,7 @@ export default function Dashboard() {
           {rsvpsLoading ? (
             <div className="text-center py-12">
               <div className="inline-block w-8 h-8 border-2 border-gray-700 border-t-indigo-500 rounded-full animate-spin"></div>
+              <p className="text-gray-500 mt-3">Loading your RSVPs...</p>
             </div>
           ) : myRsvps.length ? (
             <div className="space-y-3">

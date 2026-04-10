@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { parseDate } from '../utils/date';
+import { getCategoryBadge } from '../utils/categories';
 
 interface EventCardProps {
   event: {
@@ -18,22 +19,6 @@ interface EventCardProps {
       username: string;
     };
   };
-}
-
-const BADGE_COLORS: Record<string, string> = {
-  Social: 'bg-pink-500/20 text-pink-300 border-pink-500/30',
-  Conference: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
-  Music: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
-  Sports: 'bg-green-500/20 text-green-300 border-green-500/30',
-  Workshop: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
-  Networking: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
-  'Food & Drink': 'bg-orange-500/20 text-orange-300 border-orange-500/30',
-  Arts: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
-  Other: 'bg-gray-500/20 text-gray-300 border-gray-500/30',
-};
-
-export function getCategoryBadge(category: string) {
-  return BADGE_COLORS[category] || BADGE_COLORS.Other;
 }
 
 function formatDateRange(startDate: string, endDate: string): string {
@@ -65,7 +50,7 @@ export default function EventCard({ event }: EventCardProps) {
   return (
     <Link
       to={`/events/${event._id}`}
-      className="bg-gray-900 rounded-xl border border-gray-800 p-6 hover:border-gray-700 transition-all block"
+      className="bg-gray-900 rounded-xl border border-gray-800 p-6 hover:border-gray-700 hover:bg-gray-900/80 transition-all block focus:ring-2 focus:ring-indigo-500 focus:outline-none"
     >
       <div className="flex justify-between items-start mb-3">
         <span className={`px-3 py-1 rounded-full text-sm font-medium border ${badgeClasses}`}>

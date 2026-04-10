@@ -1,9 +1,9 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { parseDate } from '../utils/date';
 import { useQuery, useMutation } from '@apollo/client/react';
-import { QUERY_EVENT } from '../graphql/queries';
+import { QUERY_EVENT, QUERY_MY_EVENTS, QUERY_EVENTS } from '../graphql/queries';
 import { DELETE_EVENT } from '../graphql/mutations';
-import { getCategoryBadge } from '../components/EventCard';
+import { getCategoryBadge } from '../utils/categories';
 import RsvpButton from '../components/RsvpButton';
 import Auth from '../utils/auth';
 
@@ -53,6 +53,7 @@ export default function EventDetail() {
   });
 
   const [deleteEvent, { loading: deleting }] = useMutation(DELETE_EVENT, {
+    refetchQueries: [{ query: QUERY_MY_EVENTS }, { query: QUERY_EVENTS }],
     onCompleted: () => navigate('/dashboard'),
   });
 

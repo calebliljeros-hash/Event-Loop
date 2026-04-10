@@ -17,7 +17,7 @@ export default function Events() {
   const [activeSearch, setActiveSearch] = useState(initialSearch);
   const [offset, setOffset] = useState(0);
 
-  const { data, loading, fetchMore } = useQuery(QUERY_EVENTS, {
+  const { data, loading, error, fetchMore } = useQuery(QUERY_EVENTS, {
     variables: {
       category: category || undefined,
       search: activeSearch || undefined,
@@ -88,7 +88,11 @@ export default function Events() {
       </div>
 
       {/* Results */}
-      {loading && offset === 0 ? (
+      {error ? (
+        <div className="text-center py-12">
+          <p className="text-red-300">Something went wrong loading events.</p>
+        </div>
+      ) : loading && offset === 0 ? (
         <div className="text-center py-12">
           <div className="inline-block w-8 h-8 border-2 border-gray-700 border-t-indigo-500 rounded-full animate-spin"></div>
           <p className="text-gray-500 mt-3">Loading events...</p>
@@ -102,7 +106,7 @@ export default function Events() {
           </div>
 
           {/* Load More — show if we got a full page of results */}
-          {events.length >= offset + PAGE_SIZE && (
+          {!loading && events.length >= offset + PAGE_SIZE && (
             <div className="text-center mt-8">
               <button
                 onClick={handleLoadMore}

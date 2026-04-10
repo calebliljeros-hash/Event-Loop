@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client/react';
 import { QUERY_EVENT } from '../graphql/queries';
@@ -17,6 +18,15 @@ export default function EditEvent() {
 
   const [updateEvent, { loading: mutationLoading, error }] = useMutation(UPDATE_EVENT);
 
+  const event = data?.event;
+
+  // Redirect if not the organizer (must be in useEffect, not during render)
+  useEffect(() => {
+    if (!queryLoading && (!event || !profile || profile._id !== event.organizer._id)) {
+      navigate('/dashboard');
+    }
+  }, [queryLoading, event, profile, navigate]);
+
   if (queryLoading) {
     return (
       <div className="text-center py-20">
@@ -26,19 +36,17 @@ export default function EditEvent() {
     );
   }
 
-  const event = data?.event;
-
-  // Redirect if event not found or user isn't the organizer
-  if (!event || (profile && profile._id !== event.organizer._id)) {
-    navigate('/dashboard');
-    return null;
-  }
+  if (!event) return null;
 
   const handleSubmit = async (formData: EventFormData) => {
-    await updateEvent({
-      variables: { id: event._id, input: formData },
-    });
-    navigate(`/events/${event._id}`);
+    try {
+      await updateEvent({
+        variables: { id: event._id, input: formData },
+      });
+      navigate(`/events/${event._id}`);
+    } catch {
+      // error is captured by useMutation's error state
+    }
   };
 
   return (

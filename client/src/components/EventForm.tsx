@@ -1,17 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { geocodeAddress } from '../utils/geocode';
-
-const CATEGORIES = [
-  'Social',
-  'Conference',
-  'Music',
-  'Sports',
-  'Workshop',
-  'Networking',
-  'Food & Drink',
-  'Arts',
-  'Other',
-];
+import { parseDate } from '../utils/date';
+import { CATEGORIES } from '../utils/categories';
 
 export interface EventFormData {
   title: string;
@@ -44,7 +34,7 @@ interface EventFormProps {
 }
 
 function toDatetimeLocal(isoString: string): string {
-  const date = new Date(isoString);
+  const date = parseDate(isoString);
   const offset = date.getTimezoneOffset();
   const local = new Date(date.getTime() - offset * 60000);
   return local.toISOString().slice(0, 16);
