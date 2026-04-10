@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { parseDate } from '../utils/date';
 
 interface EventCardProps {
   event: {
@@ -36,8 +37,8 @@ export function getCategoryBadge(category: string) {
 }
 
 function formatDateRange(startDate: string, endDate: string): string {
-  const start = new Date(startDate);
-  const end = new Date(endDate);
+  const start = parseDate(startDate);
+  const end = parseDate(endDate);
   const opts: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', year: 'numeric' };
 
   const startStr = start.toLocaleDateString('en-US', opts);
