@@ -250,7 +250,7 @@ export default function Home() {
             )}
           </div>
           <Link
-            to={savedLoc ? '/events/nearby' : '/events'}
+            to={savedLoc ? '/events?nearby=1' : '/events'}
             className="text-indigo-400 hover:text-indigo-300 text-sm font-medium transition-colors"
           >
             View all &rarr;
