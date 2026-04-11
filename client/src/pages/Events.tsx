@@ -26,7 +26,7 @@ export default function Events() {
   // Mode state
   const [savedLoc] = useState<SavedLocation | null>(() => getSavedLocation());
   const [nearbyMode, setNearbyMode] = useState(
-    () => searchParams.get('nearby') === '1' || !!getSavedLocation()
+    () => searchParams.get('nearby') === '1'
   );
 
   // Browse mode state
@@ -121,18 +121,24 @@ export default function Events() {
   const handleCategoryChange = (newCategory: string) => {
     setCategory(newCategory);
 
-    if (nearbyMode && coordsRef.current) {
-      // Re-fire nearby query with new category
-      searchNearby({
-        variables: {
-          latitude: coordsRef.current.lat,
-          longitude: coordsRef.current.lng,
-          radiusKm: radius,
-          category: newCategory || undefined,
-          limit: 20,
-        },
-      });
-    } else if (!nearbyMode) {
+    if (nearbyMode) {
+      // Re-fire nearby query with new category if we have coordinates
+      if (coordsRef.current) {
+        searchNearby({
+          variables: {
+            latitude: coordsRef.current.lat,
+            longitude: coordsRef.current.lng,
+            radiusKm: radius,
+            category: newCategory || undefined,
+            limit: 20,
+          },
+        });
+      }
+      // Update URL params for nearby mode
+      const params: Record<string, string> = { nearby: '1' };
+      if (newCategory) params.category = newCategory;
+      setSearchParams(params);
+    } else {
       setOffset(0);
       const params: Record<string, string> = {};
       if (newCategory) params.category = newCategory;
@@ -304,7 +310,7 @@ export default function Events() {
         <div className="text-center py-12">
           <p className="text-red-300">Something went wrong loading events.</p>
         </div>
-      ) : loading && (!nearbyMode || geocoding) ? (
+      ) : isSearching ? (
         <div className="text-center py-12">
           <div className="inline-block w-8 h-8 border-2 border-gray-700 border-t-indigo-500 rounded-full animate-spin"></div>
           <p className="text-gray-500 mt-3">
