@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client/react';
 import { QUERY_MY_EVENTS, QUERY_MY_RSVPS } from '../graphql/queries';
 import { DELETE_EVENT } from '../graphql/mutations';
@@ -18,7 +18,6 @@ function formatShortDate(dateStr: string): string {
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<Tab>('events');
-  const navigate = useNavigate();
 
   const { data: eventsData, loading: eventsLoading } = useQuery(QUERY_MY_EVENTS);
   const { data: rsvpsData, loading: rsvpsLoading } = useQuery(QUERY_MY_RSVPS);
