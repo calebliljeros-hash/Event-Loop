@@ -23,9 +23,6 @@ export default function Header() {
             <Link to="/events" className="text-gray-400 hover:text-white transition-colors">
               Browse Events
             </Link>
-            <Link to="/events/nearby" className="text-gray-400 hover:text-white transition-colors">
-              Nearby
-            </Link>
             {isLoggedIn ? (
               <>
                 <Link to="/create-event" className="text-gray-400 hover:text-white transition-colors">
@@ -78,9 +75,6 @@ export default function Header() {
           <div className="md:hidden pb-4 space-y-2">
             <Link to="/events" onClick={() => setMenuOpen(false)} className="block text-gray-400 hover:text-white py-2">
               Browse Events
-            </Link>
-            <Link to="/events/nearby" onClick={() => setMenuOpen(false)} className="block text-gray-400 hover:text-white py-2">
-              Nearby
             </Link>
             {isLoggedIn ? (
               <>
