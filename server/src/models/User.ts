@@ -1,3 +1,6 @@
+// User model — handles account data and password security
+// The pre-save hook automatically hashes passwords with bcrypt
+// so plaintext passwords are never stored in the database
 import { Schema, model, type Document } from 'mongoose';
 import bcrypt from 'bcryptjs';
 

@@ -1,3 +1,7 @@
+// Unified Events page — combines "Browse All" and "Near Me" into one page
+// with a toggle switch. Browse mode uses text search + pagination (QUERY_EVENTS),
+// Nearby mode uses geospatial search with radius (QUERY_EVENTS_NEAR).
+// Category filtering works in both modes. URL params drive initial state.
 import { useState, useEffect, useRef, type FormEvent } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery, useLazyQuery } from '@apollo/client/react';

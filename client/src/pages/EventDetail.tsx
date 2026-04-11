@@ -1,3 +1,7 @@
+// Event detail page — shows full event info with conditional rendering:
+// - Organizer sees Edit/Delete buttons
+// - Other users see RSVP buttons (Attend/Maybe/Cancel)
+// - Private events return null for non-organizers (handled by server resolver)
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { parseDate } from '../utils/date';
 import { useQuery, useMutation } from '@apollo/client/react';

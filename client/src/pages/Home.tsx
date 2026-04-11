@@ -1,3 +1,7 @@
+// Home page — the landing page with hero search, category grid, and event previews
+// Location-aware: when the user sets a location (via text input or browser geolocation),
+// it saves to localStorage and switches from generic "Upcoming Events" to "Events Near [City]"
+// using a two-query strategy: useQuery for generic, useLazyQuery for nearby
 import { useState, useEffect, type FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useQuery, useLazyQuery } from '@apollo/client/react';

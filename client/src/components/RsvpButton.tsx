@@ -1,3 +1,9 @@
+// RsvpButton — handles all RSVP states in one component:
+// - Not logged in → "Log in to RSVP" link
+// - No RSVP → Attend / Maybe buttons
+// - Already RSVP'd → Status badge + Cancel button
+// - Event full → Disabled "Event Full" button
+// Uses refetchQueries to keep the event detail page in sync after mutations
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client/react';

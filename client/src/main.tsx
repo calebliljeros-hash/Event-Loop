@@ -6,6 +6,9 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
 
+// Apollo Client link chain: authLink → httpLink
+// authLink intercepts every request and attaches the JWT from localStorage
+// httpLink sends the request to the /graphql endpoint
 const httpLink = createHttpLink({
   uri: '/graphql',
 });

@@ -1,3 +1,6 @@
+// Load environment variables before any other imports
+// This ensures MONGODB_URI and JWT_SECRET are available
+// when connection.ts and auth.ts initialize
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -37,7 +40,9 @@ const startApolloServer = async () => {
     }),
   );
 
-  // Serve static client files in production
+  // In production, serve the React client's built files
+  // The catch-all '*' route enables client-side routing —
+  // any URL that doesn't match /graphql gets the SPA's index.html
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../../client/dist')));
 

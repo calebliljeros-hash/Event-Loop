@@ -1,3 +1,6 @@
+// Event model — stores event data with GeoJSON location for geospatial queries
+// Two indexes: 2dsphere on location (for $geoNear proximity search)
+// and text on title+description (for full-text search)
 import { Schema, model, type Document, type Types } from 'mongoose';
 
 export interface ILocation {

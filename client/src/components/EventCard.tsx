@@ -1,3 +1,6 @@
+// EventCard — reusable card component used across Home, Events, and nearby results
+// Displays category badge, title, date range, address, attendee count, and optional distance
+// Handles three visual states: normal, full (FULL badge), and nearby (distance in km)
 import { Link } from 'react-router-dom';
 import { parseDate } from '../utils/date';
 import { getCategoryBadge } from '../utils/categories';

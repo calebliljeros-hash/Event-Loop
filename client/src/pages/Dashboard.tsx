@@ -1,3 +1,7 @@
+// Dashboard — user's personal hub with two tabs:
+// "My Events" shows events they organized (with edit/delete actions)
+// "My RSVPs" shows events they've RSVP'd to (with status badges)
+// Both queries fire on mount so tab switching is instant (data is pre-cached)
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client/react';

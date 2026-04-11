@@ -1,3 +1,7 @@
+// EventForm — shared form component used by both CreateEvent and EditEvent pages
+// Handles geocoding on submit: converts the address text to [lng, lat] coordinates
+// via the Nominatim API before passing data to the parent's onSubmit callback.
+// Skips re-geocoding if the address hasn't changed (for edit mode efficiency)
 import { useState, type FormEvent } from 'react';
 import { geocodeAddress } from '../utils/geocode';
 import { parseDate } from '../utils/date';

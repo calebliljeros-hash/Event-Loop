@@ -1,3 +1,6 @@
+// RSVP model — tracks user responses to events (attending, maybe, declined)
+// A compound unique index on { event, user } enforces one RSVP per user per event
+// at the database level, preventing duplicates even if application code has bugs
 import { Schema, model, type Document, type Types } from 'mongoose';
 
 export interface IRsvp extends Document {
