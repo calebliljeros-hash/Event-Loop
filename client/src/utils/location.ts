@@ -39,8 +39,8 @@ export function clearLocation(): void {
  */
 export function getShortName(displayName: string): string {
   const parts = displayName.split(',').map((p) => p.trim());
-  // If the first part looks like a street number (very short), use the second part
-  if (parts.length > 1 && parts[0].length < 4) {
+  // If the first part looks like a street number, use the second part
+  if (parts.length > 1 && /^\d/.test(parts[0])) {
     return parts[1];
   }
   return parts[0] || displayName;

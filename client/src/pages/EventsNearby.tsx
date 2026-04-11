@@ -1,7 +1,8 @@
-import { useState, type FormEvent } from 'react';
+import { useState, useEffect, useRef, type FormEvent } from 'react';
 import { useLazyQuery } from '@apollo/client/react';
 import { QUERY_EVENTS_NEAR } from '../graphql/queries';
 import { geocodeAddress } from '../utils/geocode';
+import { getSavedLocation, getShortName } from '../utils/location';
 import EventCard from '../components/EventCard';
 import CategoryFilter from '../components/CategoryFilter';
 
@@ -13,13 +14,34 @@ const RADIUS_OPTIONS = [
 ];
 
 export default function EventsNearby() {
-  const [location, setLocation] = useState('');
+  const [saved] = useState(() => getSavedLocation());
+  const [location, setLocation] = useState(() => {
+    const loc = getSavedLocation();
+    return loc ? getShortName(loc.displayName) : '';
+  });
   const [radius, setRadius] = useState(50);
   const [category, setCategory] = useState('');
   const [geocodeError, setGeocodeError] = useState('');
   const [geocoding, setGeocoding] = useState(false);
+  const autoSearched = useRef(false);
 
   const [searchEvents, { data, loading, called }] = useLazyQuery(QUERY_EVENTS_NEAR);
+
+  // Auto-search on mount if we have a saved location
+  useEffect(() => {
+    if (saved && !autoSearched.current) {
+      autoSearched.current = true;
+      searchEvents({
+        variables: {
+          latitude: saved.lat,
+          longitude: saved.lng,
+          radiusKm: radius,
+          category: category || undefined,
+          limit: 20,
+        },
+      });
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSearch = async (e: FormEvent) => {
     e.preventDefault();
