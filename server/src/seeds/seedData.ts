@@ -13,6 +13,7 @@ export const users = [
   { username: 'klee', email: 'klee@example.com', password: 'password123' },
   { username: 'tjones', email: 'tjones@example.com', password: 'password123' },
   { username: 'rbrown', email: 'rbrown@example.com', password: 'password123' },
+  { username: 'caleb', email: 'caleb@example.com', password: 'password123' },
 ];
 
 // ─── EVENTS ───────────────────────────────────────────────
@@ -289,6 +290,54 @@ export const events = [
     category: 'Other',
     capacity: 100,
     isPublic: true,
+  },
+
+  // Caleb's events (mix of public and private)
+  {
+    title: 'Full-Stack Study Group',
+    description: 'Weekly study group for UCF back-end development students. We cover MERN stack topics, work through assignments together, and prep for exams.',
+    startDate: daysFromNow(2),
+    endDate: daysFromNow(2),
+    location: { type: 'Point' as const, coordinates: [-81.3992, 28.5983] },
+    address: 'Orlando, FL',
+    venue: 'UCF Library',
+    category: 'Workshop',
+    capacity: 15,
+    isPublic: true,
+  },
+  {
+    title: 'Project Demo Night',
+    description: 'Informal gathering to demo our final projects before presentation day. Get feedback from peers in a low-pressure setting.',
+    startDate: daysFromNow(19),
+    endDate: daysFromNow(19),
+    location: { type: 'Point' as const, coordinates: [-81.3789, 28.5422] },
+    address: 'Orlando, FL',
+    venue: 'UCF Student Union',
+    category: 'Networking',
+    capacity: 25,
+    isPublic: true,
+  },
+  {
+    title: 'Private Birthday Party',
+    description: 'Birthday celebration at my place. Friends and family only — RSVP so I know how much food to get!',
+    startDate: daysFromNow(24),
+    endDate: daysFromNow(24),
+    location: { type: 'Point' as const, coordinates: [-81.3510, 28.5560] },
+    address: 'Orlando, FL',
+    category: 'Social',
+    capacity: 30,
+    isPublic: false,
+  },
+  {
+    title: 'Private LAN Party',
+    description: 'Invite-only gaming night. Bring your own rig or use one of the spare setups. Pizza and energy drinks provided.',
+    startDate: daysFromNow(10),
+    endDate: daysFromNow(11),
+    location: { type: 'Point' as const, coordinates: [-81.3510, 28.5560] },
+    address: 'Orlando, FL',
+    category: 'Other',
+    capacity: 12,
+    isPublic: false,
   },
 ];
 

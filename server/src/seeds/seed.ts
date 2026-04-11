@@ -15,11 +15,25 @@ db.once('open', async () => {
     const createdUsers = await User.create(users);
     console.log(`Seeded ${createdUsers.length} users`);
 
+    // Find caleb's user (last in the array)
+    const calebUser = createdUsers.find((u) => u.username === 'caleb');
+
     // Map user references into events (round-robin assignment)
-    const eventsWithOrganizers = events.map((event, index) => ({
-      ...event,
-      organizer: createdUsers[index % createdUsers.length]._id,
-    }));
+    // Caleb's events (last 4) are explicitly assigned to caleb
+    const calebEventCount = 4;
+    const sharedEvents = events.slice(0, -calebEventCount);
+    const calebEvents = events.slice(-calebEventCount);
+
+    const eventsWithOrganizers = [
+      ...sharedEvents.map((event, index) => ({
+        ...event,
+        organizer: createdUsers[index % createdUsers.length]._id,
+      })),
+      ...calebEvents.map((event) => ({
+        ...event,
+        organizer: calebUser!._id,
+      })),
+    ];
 
     const createdEvents = await Event.insertMany(eventsWithOrganizers);
     console.log(`Seeded ${createdEvents.length} events`);
